@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- 
+			Reference
+
+	https://tobiasahlin.com/
+	http://seanhalpin.io/
+	https://github.com/AlwinMoo/alwinmoo.github.io/blob/master/index.html
+-->
+<html>
+	<head>
+		<style>
+		</style>
+  		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		
+		<!-- Custom CSS -->
+		<link href="cover.css" rel="stylesheet">
+	</head>
+	<body class="text-center">
+		<!-- Main Navigation Tab -->
+		<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+			<header class="masthead mb-auto">
+				<div class="inner">
+					<!--
+					<h3 class="masthead-brand">Cover</h3>
+					-->
+					<nav class="nav nav-masthead justify-content-center">
+						<a class="nav-link" href="index.html">Home</a>
+						<a class="nav-link disabled" href="#"> About Me </a>
+						<a class="nav-link disabled" href="#"> Works </a>
+						<a class="nav-link" href="GameReview.html">Game Review</a>
+						<a class="nav-link active" href="Bingo.html">Bingo Generator</a>
+						<!--
+						<a class="nav-link" href="AboutMe.html">About Me</a>
+						<a class="nav-link" href="Works.html">Works</a>
+						-->
+					</nav>
+				</div>
+			</header>
+
+			<main role="main" class="inner cover">
+				<h1 class="cover-heading">Bingo Generator</h1>
+				<form id="form1" action="Bingo_Result.html">
+					
+					<p>
+						Grid Size: 
+						<select name="gridSize" width=150 style="width: 200px">
+							<option value='3' onclick="listBox()">3x3</option>
+							<option value='4' onclick="listBox()">4x4</option>
+							<option value='5' onclick="listBox()">5x5</option>
+						</select>
+					</p>
+					<p>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="customCheck1" name="free-space" value ="1">
+							<label class="custom-control-label" for="customCheck1">Include Free Space?</label>
+						</div>
+					</p>
+					<p>
+						Enter your bingo words
+						</br>
+						<textarea wrap="off" name="words" id="bingo_words" placeholder="Write your bingo words here" rows="9"></textarea>
+					</p>
+
+					<p>
+						<input type="submit">
+					</p>
+				</form>
+
+			</main>
+			<footer class="mastfoot mt-auto">
+				<div class="inner">
+				</div>
+			</footer>
+		</div>
+		
+		<script src="js/Bingo.js"></script>
+	</body>
+</html>
