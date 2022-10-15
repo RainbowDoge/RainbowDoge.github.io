@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <!-- 
-			Reference
+	Reference
 
 	https://tobiasahlin.com/
 	http://seanhalpin.io/
 	https://github.com/AlwinMoo/alwinmoo.github.io/blob/master/index.html
+	
+	Notes
+	PHP is not supported on Github pages
 -->
 <html>
 	<head>
@@ -20,6 +23,13 @@
 		
 		<!-- Custom CSS -->
 		<link href="cover.css" rel="stylesheet">
+
+		<!-- JS Code -->
+		<script language="JavaScript">
+			function testButton() {
+				alert("You pressed submit");
+			}
+		</script>
 	</head>
 	<body class="text-center">
 		<!-- Main Navigation Tab -->
@@ -36,9 +46,10 @@
 				</div>
 			</header>
 
+			<!-- Bingo Gen -->
 			<main role="main" class="inner cover">
 				<h1 class="cover-heading">Bingo Generator</h1>
-				<form id="form1" action="Bingo_Result.html">
+				<form method="get" id="form1" action="">
 					
 					<p>
 						Grid Size: 
@@ -61,7 +72,7 @@
 					</p>
 
 					<p>
-						<input type="submit">
+						<input type="submit" onClick="testButton()">
 					</p>
 				</form>
 
@@ -71,7 +82,5 @@
 				</div>
 			</footer>
 		</div>
-		
-		<script src="js/Bingo.js"></script>
 	</body>
 </html>
