@@ -47,7 +47,12 @@
 				
 				let arrayData = convertText(userInput.words.value);
 
-				drawCanvas(userInput.gridSize.value, arrayData, userInput.freeSpace.value);
+				// Simple check for if free space checkbox has been ticked
+				let bFS = false;
+				if (userInput.freeSpace.checked)
+					bFS = true;
+
+				drawCanvas(userInput.gridSize.value, arrayData, bFS);
 			}
 
 			// Converts textarea into array variable
@@ -101,6 +106,7 @@
 				{
 					for (var y = 0; y <= numOfLines; ++y)
 					{
+						// Check if middle of box and ticked free space
 						if (numOfLines / 2 == x && numOfLines / 2 == y && bFreeSpace)
 						{
 							ctx.fillText("FREE SPACE", (y * constXY) + offsetXY, (x * constXY) + offsetXY);
