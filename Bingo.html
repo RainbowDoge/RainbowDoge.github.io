@@ -45,9 +45,9 @@
 				}
 
 				
-				convertText(userInput.words.value);
+				let arrayData = convertText(userInput.words.value);
 
-				drawCanvas(userInput.gridSize.value);
+				drawCanvas(userInput.gridSize.value, arrayData, userInput.freeSpace.value);
 			}
 
 			// Converts textarea into array variable
@@ -63,10 +63,11 @@
 				// Output
 				console.log(lines);
 				//alert("Text parsed " + lines);
-				//return lines;
+				return lines;
 			}
 
-			function drawCanvas(numOfBoxes) {
+			// Int, Text Array, Bool
+			function drawCanvas(numOfBoxes, dataText, bFreeSpace) {
 				var canvas = document.getElementById("BingoCanvas");
 				var ctx = canvas.getContext("2d");
 
@@ -78,7 +79,7 @@
 				let numOfLines = numOfBoxes - 1;
 				let constXY = canvas.width / numOfBoxes;
 				
-
+				// Draw lines
 				for (var x = 0; x <= numOfLines; ++x) {
 					// Vertical lines
 					ctx.moveTo((constXY + 1) * x,0);
@@ -89,6 +90,27 @@
 					ctx.moveTo(0,(constXY + 1) * x);
 					ctx.lineTo(400, (constXY + 1) * x);
 					ctx.stroke();
+				}
+
+				// Draw text of textbox
+				let offsetXY = constXY / 2;
+				let counterArray = 0;
+				ctx.textAlign = "center";
+				
+				for (var x = 0; x <= numOfLines; ++x)
+				{
+					for (var y = 0; y <= numOfLines; ++y)
+					{
+						if (numOfLines / 2 == x && numOfLines / 2 == y && bFreeSpace)
+						{
+							ctx.fillText("FREE SPACE", (y * constXY) + offsetXY, (x * constXY) + offsetXY);
+						}
+						else
+						{
+							ctx.fillText(dataText[counterArray], (y * constXY) + offsetXY, (x * constXY) + offsetXY);
+							++counterArray;
+						}
+					}
 				}
 			}
 
@@ -144,7 +166,7 @@
 					</p>
 					<p>
 						<div class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" id="ifs" name="free-space" value ="1">
+							<input type="checkbox" class="custom-control-input" id="ifs" name="freeSpace" value ="1">
 							<label class="custom-control-label" for="ifs">Include Free Space?</label>
 						</div>
 					</p>
