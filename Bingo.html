@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <!-- 
-	Reference
-
-	https://tobiasahlin.com/
-	http://seanhalpin.io/
-	https://github.com/AlwinMoo/alwinmoo.github.io/blob/master/index.html
-	
 	Notes
 	PHP is not supported on Github pages
+
+	onClick/onSelect() does not support select option buttions, use onchange instead
+
+	used abit of 
+	https://gist.github.com/gregelin/8787082
+	https://stackoverflow.com/questions/35476948/remove-empty-or-whitespace-strings-from-array-javascript
+	for parsing text
+	
+	Randomising array positions
+	https://www.w3schools.com/js/js_array_sort.asp
+
 -->
 <html>
 	<head>
@@ -21,14 +26,92 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		
-		<!-- Custom CSS -->
 		<link href="cover.css" rel="stylesheet">
+
+		<link href="Bingo.css" rel="stylesheet">
 
 		<!-- JS Code -->
 		<script language="JavaScript">
 			function testButton() {
 				alert("You pressed submit");
 			}
+
+			// Parsing data from the form
+			function parseData(userInput) {
+				// Does a check to make sure that user has input text onto the box
+				if (userInput.words.value == 0) {
+					alert("Enter your words for Bingo!");
+					return false;
+				}
+
+				
+				convertText(userInput.words.value);
+
+				drawCanvas(userInput.gridSize.value);
+			}
+
+			// Converts textarea into array variable
+			function convertText(text) {
+				var textarea = text;
+
+				// Replaces all types of end of line to a \n, followed by removing any false lines (empty lines or space lines) with filter and trim()
+				lines = textarea.replace(/\r\n/g, "\n").split("\n").filter(line => line && line.trim());
+				
+				// Randomises posiitons of the texts in the array
+				lines.sort(function(){return 0.5 - Math.random()});
+				
+				// Output
+				console.log(lines);
+				//alert("Text parsed " + lines);
+				//return lines;
+			}
+
+			function drawCanvas(numOfBoxes) {
+				var canvas = document.getElementById("BingoCanvas");
+				var ctx = canvas.getContext("2d");
+
+				// Clear canvas
+				ctx.beginPath();
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				// End of clear canvas
+
+				let numOfLines = numOfBoxes - 1;
+				let constXY = canvas.width / numOfBoxes;
+				
+
+				for (var x = 0; x <= numOfLines; ++x) {
+					// Vertical lines
+					ctx.moveTo((constXY + 1) * x,0);
+					ctx.lineTo((constXY + 1) * x, 400);
+					ctx.stroke();
+
+					// Horizontal
+					ctx.moveTo(0,(constXY + 1) * x);
+					ctx.lineTo(400, (constXY + 1) * x);
+					ctx.stroke();
+				}
+			}
+
+			// Enable/Disable checkbox for free space depending on it's gridSize
+			function toggleFreeCB(num) {
+				// OEC = Odd Even Check by using modulo
+				let OEC = num % 2;
+				switch (OEC)
+				{
+					case 0:
+						document.getElementById('ifs').disabled=true;
+						// Disable checkbox if its already checked
+						if (document.getElementById('ifs').checked)
+							document.getElementById('ifs').checked = false;
+						break;
+					case 1:
+					default:
+						document.getElementById('ifs').disabled=false;
+						break;
+				}
+			}
+
+
 		</script>
 	</head>
 	<body class="text-center">
@@ -53,16 +136,16 @@
 					
 					<p>
 						Grid Size: 
-						<select name="gridSize" style="width: 200px">
-							<option value='3' onclick="listBox()">3x3</option>
-							<option value='4' onclick="listBox()">4x4</option>
-							<option value='5' onclick="listBox()">5x5</option>
+						<select name="gridSize" style="width: 200px" onchange="toggleFreeCB(this.value)">
+							<option value='3'>3x3</option>
+							<option value='4'>4x4</option>
+							<option value='5'>5x5</option>
 						</select>
 					</p>
 					<p>
 						<div class="custom-control custom-checkbox">
-							<input type="checkbox" class="custom-control-input" id="customCheck1" name="free-space" value ="1">
-							<label class="custom-control-label" for="customCheck1">Include Free Space?</label>
+							<input type="checkbox" class="custom-control-input" id="ifs" name="free-space" value ="1">
+							<label class="custom-control-label" for="ifs">Include Free Space?</label>
 						</div>
 					</p>
 					<p>
@@ -75,11 +158,16 @@
 						<!--
 							<input type="Submit" onClick="testButton()">
 						-->
-						<input type="button" value="Submit" onClick="testButton()">
+						<input type="button" value="Submit" onClick="parseData(this.form)">
 					</p>
 				</form>
+				
+				<div id="bingoResult">
+					<canvas id="BingoCanvas" height="400" width="400">
 
+				</div>
 			</main>
+			
 			<footer class="mastfoot mt-auto">
 				<div class="inner">
 				</div>
