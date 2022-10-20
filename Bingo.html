@@ -13,6 +13,9 @@
 	Randomising array positions
 	https://www.w3schools.com/js/js_array_sort.asp
 
+	// Fragmenting of text adaptation
+	https://stackoverflow.com/questions/2936112/text-wrap-in-a-canvas-element
+	https://www.w3schools.com/graphics/canvas_text.asp
 -->
 <html>
 	<head>
@@ -66,7 +69,7 @@
 				lines.sort(function(){return 0.5 - Math.random()});
 				
 				// Output
-				console.log(lines);
+				console.log(lines); 
 				//alert("Text parsed " + lines);
 				return lines;
 			}
@@ -101,7 +104,10 @@
 				let offsetXY = constXY / 2;
 				let counterArray = 0;
 				ctx.textAlign = "center";
-				
+				let fontSize = 14;
+				ctx.font = fontSize + "px Arial"
+				//font?
+
 				for (var x = 0; x <= numOfLines; ++x)
 				{
 					for (var y = 0; y <= numOfLines; ++y)
@@ -109,11 +115,60 @@
 						// Check if middle of box and ticked free space
 						if (numOfLines / 2 == x && numOfLines / 2 == y && bFreeSpace)
 						{
-							ctx.fillText("FREE SPACE", (y * constXY) + offsetXY, (x * constXY) + offsetXY);
+							ctx.fillText("FREE SPACE", (x * constXY) + offsetXY, (y * constXY) + offsetXY);
 						}
 						else
 						{
-							ctx.fillText(dataText[counterArray], (y * constXY) + offsetXY, (x * constXY) + offsetXY);
+							// Does a check to see whether the data is too long to fit in a single line
+							
+							//console.log(ctx.measureText(dataText[counterArray]));
+							//console.log(constXY * 4 / 5);
+							if (ctx.measureText(dataText[counterArray]).width > (constXY * 4 / 5)) {
+								// Fragment text cos it stretches out of box
+								var counter = 0;
+								var offsetLineHeight= fontSize;
+								var line = '';
+								var words = dataText[counterArray].split(' ');
+								//console.log(words);
+								for (var i = 0; i < words.length; ++i) {
+
+									var tempLine = line + words[i];
+									if (i < words.length - 1) {
+										tempLine += ' ';
+									}
+									//console.log(tempLine);
+
+									// Test (current line + next word) is more than the allocated width
+									if (ctx.measureText(tempLine).width < (constXY * 4 / 5)) {
+										line = tempLine;
+										if (i == words.length - 1) {
+											// Print whatever is left
+											//console.log((counter+1) + " line: " + line);
+											ctx.fillText(line, (x * constXY) + offsetXY, (y * constXY) + offsetXY + (counter * offsetLineHeight));
+										}
+									}
+									else {
+
+										// tempLine reaches max width allocated, so print, then reset tempLine
+										//console.log((counter+1) + " line: " + line);
+										ctx.fillText(line, (x * constXY) + offsetXY, (y * constXY) + offsetXY + (counter * offsetLineHeight));
+										++counter;
+										// reset
+										// Check if word is last
+										if (i == words.length - 1) {
+											// If last one, print whatever is left
+											line = words[i];
+											//console.log((counter+1) + " line: " + line);
+											ctx.fillText(line, (x * constXY) + offsetXY, (y * constXY) + offsetXY + (counter * offsetLineHeight));
+										} else {
+											line = words[i] + ' ';
+										}
+									}
+								}
+							}
+							else {
+								ctx.fillText(dataText[counterArray], (x * constXY) + offsetXY, (y * constXY) + offsetXY);
+							}
 							++counterArray;
 						}
 					}
