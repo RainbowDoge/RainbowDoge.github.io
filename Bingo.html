@@ -106,23 +106,15 @@
 				ctx.textAlign = "center";
 				let fontSize = 14;
 				ctx.font = fontSize + "px Arial"
-				//font?
 
-				for (var x = 0; x <= numOfLines; ++x)
-				{
-					for (var y = 0; y <= numOfLines; ++y)
-					{
+				for (var x = 0; x <= numOfLines; ++x) {
+					for (var y = 0; y <= numOfLines; ++y) {
 						// Check if middle of box and ticked free space
-						if (numOfLines / 2 == x && numOfLines / 2 == y && bFreeSpace)
-						{
+						if (numOfLines / 2 == x && numOfLines / 2 == y && bFreeSpace) {
 							ctx.fillText("FREE SPACE", (x * constXY) + offsetXY, (y * constXY) + offsetXY);
 						}
-						else
-						{
+						else {
 							// Does a check to see whether the data is too long to fit in a single line
-							
-							//console.log(ctx.measureText(dataText[counterArray]));
-							//console.log(constXY * 4 / 5);
 							if (ctx.measureText(dataText[counterArray]).width > (constXY * 4 / 5)) {
 								// Fragment text cos it stretches out of box
 								var fragmentLine = [];
@@ -132,46 +124,9 @@
 								var words = dataText[counterArray].split(' ');
 								// Set first word into line
 								var line = words[0];
-								//console.log(words);
-								/*
-								for (var i = 0; i < words.length; ++i) {
-
-									var tempLine = line + words[i];
-									if (i < words.length - 1) {
-										tempLine += ' ';
-									}
-									//console.log(tempLine);
-
-									// Test (current line + next word) is more than the allocated width
-									if (ctx.measureText(tempLine).width < (constXY * 4 / 5)) {
-										line = tempLine;
-										if (i == words.length - 1) {
-											// Print whatever is left
-											//console.log((counter+1) + " line: " + line);
-											ctx.fillText(line, (x * constXY) + offsetXY, (y * constXY) + offsetXY + (counter * offsetLineHeight));
-										}
-									}
-									else {
-
-										// tempLine reaches max width allocated, so print, then reset tempLine
-										//console.log((counter+1) + " line: " + line);
-										ctx.fillText(line, (x * constXY) + offsetXY, (y * constXY) + offsetXY + (counter * offsetLineHeight));
-										++counter;
-										// reset
-										// Check if word is last
-										if (i == words.length - 1) {
-											// If last one, print whatever is left
-											line = words[i];
-											//console.log((counter+1) + " line: " + line);
-											ctx.fillText(line, (x * constXY) + offsetXY, (y * constXY) + offsetXY + (counter * offsetLineHeight));
-										} else {
-											line = words[i] + ' ';
-										}
-									}
-								}*/
 
 								// For loop of the words[]
-								for (var i = 0; i < words.length; ++i) { // I.E Troye plays basketball | in
+								for (var i = 0; i < words.length; ++i) {
 									// Checks for current line + next word if it is over limit
 									if (ctx.measureText(line + ' ' + words[i + 1]).width < (constXY * 4 / 5)) {
 										// If not, add next word into line
@@ -182,14 +137,12 @@
 										line = words[i + 1];
 										++counter;
 									}
-									
 									// If on last words, run function to write text
 									if (i == words.length - 1) {
 										fragmentLine[counter] = line;
 										writeFragmentedText(ctx, fragmentLine, (x * constXY) + offsetXY, (y * constXY) + offsetXY, counter + 1, offsetLineHeight);
 									}
 								}
-
 							}
 							else {
 								// Write line
@@ -204,8 +157,7 @@
 			// canvas.getContext, string[], posX, posY, num of line
 			function writeFragmentedText(ctx, fragmentLine, posX, posY, numOfLines, offsetLineHeight) {
 				var offsetModifier = -((numOfLines-1) / 2.0) + 0.5;
-				for (var i = 0; i < numOfLines - 1; ++i)
-				{
+				for (var i = 0; i < numOfLines - 1; ++i) {
 					ctx.fillText(fragmentLine[i], posX, posY + (offsetModifier * offsetLineHeight));
 					++offsetModifier;
 				}
@@ -215,8 +167,7 @@
 			function toggleFreeCB(num) {
 				// OEC = Odd Even Check by using modulo
 				let OEC = num % 2;
-				switch (OEC)
-				{
+				switch (OEC) {
 					case 0:
 						document.getElementById('ifs').disabled=true;
 						// Disable checkbox if its already checked
@@ -283,7 +234,6 @@
 				
 				<div id="bingoResult">
 					<canvas id="BingoCanvas" height="400" width="400"></canvas>
-
 				</div>
 			</main>
 			
