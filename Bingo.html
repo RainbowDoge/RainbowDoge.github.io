@@ -69,7 +69,7 @@
 				lines.sort(function(){return 0.5 - Math.random()});
 				
 				// Output
-				console.log(lines); 
+				//console.log(lines); 
 				//alert("Text parsed " + lines);
 				return lines;
 			}
@@ -125,11 +125,15 @@
 							//console.log(constXY * 4 / 5);
 							if (ctx.measureText(dataText[counterArray]).width > (constXY * 4 / 5)) {
 								// Fragment text cos it stretches out of box
+								var fragmentLine = [];
 								var counter = 0;
 								var offsetLineHeight= fontSize;
-								var line = '';
+
 								var words = dataText[counterArray].split(' ');
+								// Set first word into line
+								var line = words[0];
 								//console.log(words);
+								/*
 								for (var i = 0; i < words.length; ++i) {
 
 									var tempLine = line + words[i];
@@ -164,14 +168,46 @@
 											line = words[i] + ' ';
 										}
 									}
+								}*/
+
+								// For loop of the words[]
+								for (var i = 0; i < words.length; ++i) { // I.E Troye plays basketball | in
+									// Checks for current line + next word if it is over limit
+									if (ctx.measureText(line + ' ' + words[i + 1]).width < (constXY * 4 / 5)) {
+										// If not, add next word into line
+										line = line + ' ' + words[i + 1];
+									} else {
+										// If over limit, add line to fragmentLine, reset line to next word, ++counter
+										fragmentLine[counter] = line;
+										line = words[i + 1];
+										++counter;
+									}
+									
+									// If on last words, run function to write text
+									if (i == words.length - 1) {
+										fragmentLine[counter] = line;
+										writeFragmentedText(ctx, fragmentLine, (x * constXY) + offsetXY, (y * constXY) + offsetXY, counter + 1, offsetLineHeight);
+									}
 								}
+
 							}
 							else {
+								// Write line
 								ctx.fillText(dataText[counterArray], (x * constXY) + offsetXY, (y * constXY) + offsetXY);
 							}
 							++counterArray;
 						}
 					}
+				}
+			}
+
+			// canvas.getContext, string[], posX, posY, num of line
+			function writeFragmentedText(ctx, fragmentLine, posX, posY, numOfLines, offsetLineHeight) {
+				var offsetModifier = -((numOfLines-1) / 2.0) + 0.5;
+				for (var i = 0; i < numOfLines - 1; ++i)
+				{
+					ctx.fillText(fragmentLine[i], posX, posY + (offsetModifier * offsetLineHeight));
+					++offsetModifier;
 				}
 			}
 
