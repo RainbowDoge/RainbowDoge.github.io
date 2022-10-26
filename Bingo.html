@@ -39,6 +39,10 @@
 				alert("You pressed submit");
 			}
 
+			function alertNotif(text) {
+				alert(text);
+			}
+
 			// Parsing data from the form
 			function parseData(userInput) {
 				// Does a check to make sure that user has input text onto the box
@@ -46,9 +50,14 @@
 					alert("Enter your words for Bingo!");
 					return false;
 				}
-
 				
 				let arrayData = convertText(userInput.words.value);
+
+				// Checks if user input lines is more than selected grid Size
+				if (arrayData.length < userInput.gridSize.value * userInput.gridSize.value) {
+					alertNotif("Not enough BINGO lines!");
+					return;
+				}
 
 				// Simple check for if free space checkbox has been ticked
 				let bFS = false;
@@ -76,6 +85,7 @@
 
 			// Int, Text Array, Bool
 			function drawCanvas(numOfBoxes, dataText, bFreeSpace) {
+
 				var canvas = document.getElementById("BingoCanvas");
 				var ctx = canvas.getContext("2d");
 
@@ -104,7 +114,7 @@
 				let offsetXY = constXY / 2;
 				let counterArray = 0;
 				ctx.textAlign = "center";
-				let fontSize = 14;
+				let fontSize = 17;
 				ctx.font = fontSize + "px Arial"
 
 				for (var x = 0; x <= numOfLines; ++x) {
@@ -145,8 +155,9 @@
 								}
 							}
 							else {
-								// Write line
-								ctx.fillText(dataText[counterArray], (x * constXY) + offsetXY, (y * constXY) + offsetXY);
+								// Write line if dataText[counterArray] is !empty
+								if (dataText[counterArray])
+									ctx.fillText(dataText[counterArray], (x * constXY) + offsetXY, (y * constXY) + offsetXY);
 							}
 							++counterArray;
 						}
