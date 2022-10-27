@@ -115,6 +115,20 @@
 				let counterArray = 0;
 				ctx.textAlign = "center";
 				let fontSize = 17;
+				
+				// Change fontSize according to gridSize.value
+				switch (numOfBoxes) {
+					case "3":
+						fontSize = 17;
+						break;
+					case "4":
+						fontSize = 16;
+						break;
+					case "5":
+						fontSize = 15;
+						break;
+				}
+				console.log("numOfBoxes: " + numOfBoxes + ",fontSize: " + fontSize);
 				ctx.font = fontSize + "px Arial"
 
 				for (var x = 0; x <= numOfLines; ++x) {
