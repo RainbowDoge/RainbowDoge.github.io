@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--
+	Notes
+	PHP is not supported on Github pages
+
+	onClick/onSelect() does not support select option buttions, use onchange instead
+
+	used abit of 
+	https://gist.github.com/gregelin/8787082
+	https://stackoverflow.com/questions/35476948/remove-empty-or-whitespace-strings-from-array-javascript
+	for parsing text
+	
+	Randomising array positions
+	https://www.w3schools.com/js/js_array_sort.asp
+
+	// Fragmenting of text adaptation
+	https://stackoverflow.com/questions/2936112/text-wrap-in-a-canvas-element
+	https://www.w3schools.com/graphics/canvas_text.asp
+-->
+<html>
+	<head>
+		<style>
+		</style>
+  		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		
+
+		<link href="testing.css" rel="stylesheet">
+
+		<!-- JS Code -->
+		<script language="JavaScript">
+			function testButton() {
+				alert("You pressed submit");
+			}
+
+			function alertNotif(text) {
+				alert(text);
+			}
+
+			function displayBIOS(form) {
+				$('.form').hide();
+				$(form).show();
+			}
+
+			function toggleLockedChecklist(num) {
+				bChecked = num.checked;
+
+				document.getElementById('OC' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
+				document.getElementById('dCSM' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
+				document.getElementById('fan' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
+				document.getElementById('module' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
+			}
+
+		</script>
+	</head>
+	<body class="text-center">
+		<!-- Main Navigation Tab -->
+		<div class="cover-container mx-auto">
+
+			<!-- Testing process -->
+				<h1 class="cover-heading">Testing rack</h1>
+				<div class="row">
+					<div class="column">
+						<form method="get" id="num1">
+							<p>
+								Enter PJ-(x) [Rack #1]:
+								<br>
+								<input type="text"><br>
+								<input type="button" value="Submit" onClick="displayBIOS(bios1)">
+							</p>
+						</form>
+						<form id="bios1" style="display: none">
+							<p>
+								<input type="checkbox" id="BIOSVer1" name="BIOSVer1" onchange="toggleLockedChecklist(this)">
+								<label for="BIOSVer1"> BIOS updated </label><br>
+
+								<input type="checkbox" id="OC1" name="OC1" disabled="true">
+								<label for="OC1"> XMP/D.O.C.P </label><br>
+								<input type="checkbox" id="dCSM1" name="dCSM1" disabled="true">
+								<label for="dCSM1"> Disable CSM Support </label><br>
+								<input type="checkbox" id="fan1" name="fan1" disabled="true">
+								<label for="fan1"> Fan configs </label><br>
+								<input type="checkbox" id="module1" name="module1" disabled="true">
+								<label for="module1"> fTPM/PTT enabled </label><br>
+								<input type="checkbox" id="network1" name="network1" disabled="true">
+								<label for="network1"> Network Stack Enable (IPv6 PXE disable) </label><br>
+								<input type="checkbox" id="graphics1" name="graphics1" disabled="true">
+								<label for="graphics1"> Enable Above 4G & Resize BAR </label><br>
+							</p>
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num2">
+							<p>
+								Enter PJ-(x) [Rack #2]:
+								<br>
+								<input type="text"><br>
+								<input type="button" value="Submit" onClick="displayBIOS(bios2)">
+						</form>
+						<form id="bios2" style="display: none">
+							<p>
+								<input type="checkbox" id="BIOSVer2" name="BIOSVer2" onchange="toggleLockedChecklist(this)">
+								<label for="BIOSVer2"> BIOS updated </label><br>
+								<input type="checkbox" id="OC2" name="OC2" disabled="true">
+								<label for="OC2"> XMP/D.O.C.P </label><br>
+
+							</p>
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num3">
+							<p>
+								Enter PJ-(x) [Rack #3]:
+								<br>
+								<input type="text"><br>
+								<input type="button" value="Submit" onClick="newList(this.form)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num4">
+							<p>
+								Enter PJ-(x) [Rack #4]:
+								<br>
+								<input type="text"><br>
+								<input type="button" value="Submit" onClick="newList(this.form)">
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column">
+						<form method="get" id="num5">
+							<p>
+								Enter PJ-(x) [Rack #5]:
+								<br>
+								<input type="text"><br>
+								<input type="button" value="Submit" onClick="newList(this.form)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num6">
+							<p>
+								Enter PJ-(x) [Rack #6]:
+								<br>
+								<input type="text"><br>
+								<input type="button" value="Submit" onClick="newList(this.form)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num7">
+							<p>
+								Enter PJ-(x) [Rack #7]:
+								<br>
+								<input type="text"><br>
+								<input type="button" value="Submit" onClick="newList(this.form)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num8">
+							<p>
+								Enter PJ-(x) [Rack #8]:
+								<br>
+								<input type="text"><br>
+								<input type="button" value="Submit" onClick="newList(this.form)">
+						</form>
+					</div>
+				</div>
+				<!--
+				<form method="get" id="form1" action="">
+					<p>
+						Grid Size: 
+						<select name="gridSize" style="width: 200px" onchange="toggleFreeCB(this.value)">
+							<option value='3'>3x3</option>
+							<option value='4'>4x4</option>
+							<option value='5'>5x5</option>
+						</select>
+					</p>
+					<p>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="ifs" name="freeSpace">
+							<label class="custom-control-label" for="ifs">Include Free Space?</label>
+						</div>
+					</p>
+					<p>
+						Enter your bingo words
+						</br>
+						<textarea wrap="off" name="words" id="bingo_words" placeholder="Write your bingo words here" rows="9" style="width: 450px; height: 500px; min-height: 500px"></textarea>
+					</p>
+
+					<p>
+						<input type="button" value="Submit" onClick="parseData(this.form)">
+					</p>
+				</form>
+				-->
+			
+			<footer class="mastfoot mt-auto">
+				<div class="inner">
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>
