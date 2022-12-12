@@ -42,9 +42,21 @@
 				alert(text);
 			}
 
-			function displayBIOS(form) {
-				$('.form').hide();
-				$(form).show();
+			function displayForm(current, next) {
+				//$(current).hide();
+				//$(next).show();
+				pj = 'pjNum' + current.id.charAt(current.id.length - 1);
+				if (next.id != 'num' + current.id.charAt(current.id.length - 1)) {
+					document.getElementById(pj).innerHTML = "PJ-" + current.pjNum.value;
+					document.getElementById(pj).style.display = 'block';
+				}
+				else {
+					document.getElementById(pj).style.display = 'none';
+				}
+
+				current.style.display = 'none';
+				next = next + current.id.charAt(current.id.length - 1);
+				document.getElementById(next).style.display = 'block';
 			}
 
 			function toggleLockedChecklist(num) {
@@ -54,6 +66,9 @@
 				document.getElementById('dCSM' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
 				document.getElementById('fan' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
 				document.getElementById('module' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
+				document.getElementById('network' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
+				document.getElementById('graphics' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
+				document.getElementById('sb' + num.name.charAt(num.name.length - 1)).disabled=!bChecked;
 			}
 
 		</script>
@@ -70,10 +85,13 @@
 							<p>
 								Enter PJ-(x) [Rack #1]:
 								<br>
-								<input type="text"><br>
-								<input type="button" value="Submit" onClick="displayBIOS(bios1)">
+								<input type="text" name="pjNum"><br>
+								<input type="button" value="Submit" onClick="displayForm(this.form, 'bios')">
 							</p>
 						</form>
+						<h4 id="pjNum1" style="display: none">
+							test
+						</h4>
 						<form id="bios1" style="display: none">
 							<p>
 								<input type="checkbox" id="BIOSVer1" name="BIOSVer1" onchange="toggleLockedChecklist(this)">
@@ -91,6 +109,8 @@
 								<label for="network1"> Network Stack Enable (IPv6 PXE disable) </label><br>
 								<input type="checkbox" id="graphics1" name="graphics1" disabled="true">
 								<label for="graphics1"> Enable Above 4G & Resize BAR </label><br>
+								<input type="checkbox" id="sb1" name="sb1" disabled="true">
+								<label for="sb1"> Secure Boot = Enabled/Standard/UEFI </label><br>
 							</p>
 						</form>
 					</div>
@@ -99,16 +119,31 @@
 							<p>
 								Enter PJ-(x) [Rack #2]:
 								<br>
-								<input type="text"><br>
-								<input type="button" value="Submit" onClick="displayBIOS(bios2)">
+								<input type="text" name="pjNum"><br>
+								<input type="button" value="Submit" onClick="displayForm(this.form, 'bios')">
 						</form>
+						<h4 id="pjNum2" style="display: none">
+							test
+						</h4>
 						<form id="bios2" style="display: none">
 							<p>
 								<input type="checkbox" id="BIOSVer2" name="BIOSVer2" onchange="toggleLockedChecklist(this)">
 								<label for="BIOSVer2"> BIOS updated </label><br>
+
 								<input type="checkbox" id="OC2" name="OC2" disabled="true">
 								<label for="OC2"> XMP/D.O.C.P </label><br>
-
+								<input type="checkbox" id="dCSM2" name="dCSM2" disabled="true">
+								<label for="dCSM2"> Disable CSM Support </label><br>
+								<input type="checkbox" id="fan2" name="fan2" disabled="true">
+								<label for="fan2"> Fan configs </label><br>
+								<input type="checkbox" id="module2" name="module2" disabled="true">
+								<label for="module2"> fTPM/PTT enabled </label><br>
+								<input type="checkbox" id="network2" name="network2" disabled="true">
+								<label for="network2"> Network Stack Enable (IPv6 PXE disable) </label><br>
+								<input type="checkbox" id="graphics2" name="graphics2" disabled="true">
+								<label for="graphics2"> Enable Above 4G & Resize BAR </label><br>
+								<input type="checkbox" id="sb2" name="sb2" disabled="true">
+								<label for="sb2"> Secure Boot = Enabled/Standard/UEFI </label><br>
 							</p>
 						</form>
 					</div>
@@ -117,8 +152,33 @@
 							<p>
 								Enter PJ-(x) [Rack #3]:
 								<br>
-								<input type="text"><br>
-								<input type="button" value="Submit" onClick="newList(this.form)">
+								<input type="text" name="pjNum"><br>
+								<input type="button" value="Submit" onClick="displayForm(this.form, 'bios')">
+							</p>
+						</form>
+						<h4 id="pjNum3" style="display: none">
+							test
+						</h4>
+						<form id="bios3" style="display: none">
+							<p>
+								<input type="checkbox" id="BIOSVer3" name="BIOSVer3" onchange="toggleLockedChecklist(this)">
+								<label for="BIOSVer3"> BIOS updated </label><br>
+
+								<input type="checkbox" id="OC3" name="OC3" disabled="true">
+								<label for="OC3"> XMP/D.O.C.P </label><br>
+								<input type="checkbox" id="dCSM3" name="dCSM3" disabled="true">
+								<label for="dCSM3"> Disable CSM Support </label><br>
+								<input type="checkbox" id="fan3" name="fan3" disabled="true">
+								<label for="fan3"> Fan configs </label><br>
+								<input type="checkbox" id="module3" name="module3" disabled="true">
+								<label for="module3"> fTPM/PTT enabled </label><br>
+								<input type="checkbox" id="network3" name="network3" disabled="true">
+								<label for="network3"> Network Stack Enable (IPv6 PXE disable) </label><br>
+								<input type="checkbox" id="graphics3" name="graphics3" disabled="true">
+								<label for="graphics3"> Enable Above 4G & Resize BAR </label><br>
+								<input type="checkbox" id="sb3" name="sb3" disabled="true">
+								<label for="sb3"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							</p>
 						</form>
 					</div>
 					<div class="column">
@@ -126,8 +186,33 @@
 							<p>
 								Enter PJ-(x) [Rack #4]:
 								<br>
-								<input type="text"><br>
-								<input type="button" value="Submit" onClick="newList(this.form)">
+								<input type="text" name="pjNum"><br>
+								<input type="button" value="Submit" onClick="displayForm(this.form, 'bios')">
+							</p>
+						</form>
+						<h4 id="pjNum4" style="display: none">
+							test
+						</h4>
+						<form id="bios4" style="display: none">
+							<p>
+								<input type="checkbox" id="BIOSVer4" name="BIOSVer4" onchange="toggleLockedChecklist(this)">
+								<label for="BIOSVer4"> BIOS updated </label><br>
+
+								<input type="checkbox" id="OC4" name="OC4" disabled="true">
+								<label for="OC4"> XMP/D.O.C.P </label><br>
+								<input type="checkbox" id="dCSM4" name="dCSM4" disabled="true">
+								<label for="dCSM4"> Disable CSM Support </label><br>
+								<input type="checkbox" id="fan4" name="fan4" disabled="true">
+								<label for="fan4"> Fan configs </label><br>
+								<input type="checkbox" id="module4" name="module4" disabled="true">
+								<label for="module4"> fTPM/PTT enabled </label><br>
+								<input type="checkbox" id="network4" name="network4" disabled="true">
+								<label for="network4"> Network Stack Enable (IPv6 PXE disable) </label><br>
+								<input type="checkbox" id="graphics4" name="graphics4" disabled="true">
+								<label for="graphics4"> Enable Above 4G & Resize BAR </label><br>
+								<input type="checkbox" id="sb4" name="sb4" disabled="true">
+								<label for="sb4"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							</p>
 						</form>
 					</div>
 				</div>
@@ -137,8 +222,33 @@
 							<p>
 								Enter PJ-(x) [Rack #5]:
 								<br>
-								<input type="text"><br>
-								<input type="button" value="Submit" onClick="newList(this.form)">
+								<input type="text" name="pjNum"><br>
+								<input type="button" value="Submit" onClick="displayForm(this.form, 'bios')">
+							</p>
+						</form>
+						<h4 id="pjNum5" style="display: none">
+							test
+						</h4>
+						<form id="bios5" style="display: none">
+							<p>
+								<input type="checkbox" id="BIOSVer5" name="BIOSVer5" onchange="toggleLockedChecklist(this)">
+								<label for="BIOSVer5"> BIOS updated </label><br>
+
+								<input type="checkbox" id="OC5" name="OC5" disabled="true">
+								<label for="OC5"> XMP/D.O.C.P </label><br>
+								<input type="checkbox" id="dCSM5" name="dCSM5" disabled="true">
+								<label for="dCSM5"> Disable CSM Support </label><br>
+								<input type="checkbox" id="fan5" name="fan5" disabled="true">
+								<label for="fan5"> Fan configs </label><br>
+								<input type="checkbox" id="module5" name="module5" disabled="true">
+								<label for="module5"> fTPM/PTT enabled </label><br>
+								<input type="checkbox" id="network5" name="network5" disabled="true">
+								<label for="network5"> Network Stack Enable (IPv6 PXE disable) </label><br>
+								<input type="checkbox" id="graphics5" name="graphics5" disabled="true">
+								<label for="graphics5"> Enable Above 4G & Resize BAR </label><br>
+								<input type="checkbox" id="sb5" name="sb5" disabled="true">
+								<label for="sb5"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							</p>
 						</form>
 					</div>
 					<div class="column">
@@ -146,8 +256,33 @@
 							<p>
 								Enter PJ-(x) [Rack #6]:
 								<br>
-								<input type="text"><br>
-								<input type="button" value="Submit" onClick="newList(this.form)">
+								<input type="text" name="pjNum"><br>
+								<input type="button" value="Submit" onClick="displayForm(this.form, 'bios')">
+							</p>
+						</form>
+						<h4 id="pjNum6" style="display: none">
+							test
+						</h4>
+						<form id="bios6" style="display: none">
+							<p>
+								<input type="checkbox" id="BIOSVer6" name="BIOSVer6" onchange="toggleLockedChecklist(this)">
+								<label for="BIOSVer6"> BIOS updated </label><br>
+
+								<input type="checkbox" id="OC6" name="OC6" disabled="true">
+								<label for="OC6"> XMP/D.O.C.P </label><br>
+								<input type="checkbox" id="dCSM6" name="dCSM6" disabled="true">
+								<label for="dCSM6"> Disable CSM Support </label><br>
+								<input type="checkbox" id="fan6" name="fan6" disabled="true">
+								<label for="fan6"> Fan configs </label><br>
+								<input type="checkbox" id="module6" name="module6" disabled="true">
+								<label for="module6"> fTPM/PTT enabled </label><br>
+								<input type="checkbox" id="network6" name="network6" disabled="true">
+								<label for="network6"> Network Stack Enable (IPv6 PXE disable) </label><br>
+								<input type="checkbox" id="graphics6" name="graphics6" disabled="true">
+								<label for="graphics6"> Enable Above 4G & Resize BAR </label><br>
+								<input type="checkbox" id="sb6" name="sb6" disabled="true">
+								<label for="sb6"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							</p>
 						</form>
 					</div>
 					<div class="column">
@@ -155,8 +290,33 @@
 							<p>
 								Enter PJ-(x) [Rack #7]:
 								<br>
-								<input type="text"><br>
-								<input type="button" value="Submit" onClick="newList(this.form)">
+								<input type="text" name="pjNum"><br>
+								<input type="button" value="Submit" onClick="displayForm(this.form, 'bios')">
+							</p>
+						</form>
+						<h4 id="pjNum7" style="display: none">
+							test
+						</h4>
+						<form id="bios7" style="display: none">
+							<p>
+								<input type="checkbox" id="BIOSVer7" name="BIOSVer7" onchange="toggleLockedChecklist(this)">
+								<label for="BIOSVer7"> BIOS updated </label><br>
+
+								<input type="checkbox" id="OC7" name="OC7" disabled="true">
+								<label for="OC7"> XMP/D.O.C.P </label><br>
+								<input type="checkbox" id="dCSM7" name="dCSM7" disabled="true">
+								<label for="dCSM7"> Disable CSM Support </label><br>
+								<input type="checkbox" id="fan7" name="fan7" disabled="true">
+								<label for="fan7"> Fan configs </label><br>
+								<input type="checkbox" id="module7" name="module7" disabled="true">
+								<label for="module7"> fTPM/PTT enabled </label><br>
+								<input type="checkbox" id="network7" name="network7" disabled="true">
+								<label for="network7"> Network Stack Enable (IPv6 PXE disable) </label><br>
+								<input type="checkbox" id="graphics7" name="graphics7" disabled="true">
+								<label for="graphics7"> Enable Above 4G & Resize BAR </label><br>
+								<input type="checkbox" id="sb7" name="sb7" disabled="true">
+								<label for="sb7"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							</p>
 						</form>
 					</div>
 					<div class="column">
@@ -164,8 +324,33 @@
 							<p>
 								Enter PJ-(x) [Rack #8]:
 								<br>
-								<input type="text"><br>
-								<input type="button" value="Submit" onClick="newList(this.form)">
+								<input type="text" name="pjNum"><br>
+								<input type="button" value="Submit" onClick="displayForm(this.form, 'bios')">
+							</p>
+						</form>
+						<h4 id="pjNum8" style="display: none">
+							test
+						</h4>
+						<form id="bios8" style="display: none">
+							<p>
+								<input type="checkbox" id="BIOSVer8" name="BIOSVer8" onchange="toggleLockedChecklist(this)">
+								<label for="BIOSVer8"> BIOS updated </label><br>
+
+								<input type="checkbox" id="OC8" name="OC8" disabled="true">
+								<label for="OC8"> XMP/D.O.C.P </label><br>
+								<input type="checkbox" id="dCSM8" name="dCSM8" disabled="true">
+								<label for="dCSM8"> Disable CSM Support </label><br>
+								<input type="checkbox" id="fan8" name="fan8" disabled="true">
+								<label for="fan8"> Fan configs </label><br>
+								<input type="checkbox" id="module8" name="module8" disabled="true">
+								<label for="module8"> fTPM/PTT enabled </label><br>
+								<input type="checkbox" id="network8" name="network8" disabled="true">
+								<label for="network8"> Network Stack Enable (IPv6 PXE disable) </label><br>
+								<input type="checkbox" id="graphics8" name="graphics8" disabled="true">
+								<label for="graphics8"> Enable Above 4G & Resize BAR </label><br>
+								<input type="checkbox" id="sb8" name="sb8" disabled="true">
+								<label for="sb8"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							</p>
 						</form>
 					</div>
 				</div>
