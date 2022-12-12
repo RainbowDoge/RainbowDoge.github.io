@@ -46,7 +46,7 @@
 			function showPJ(current) {
 				pj = 'pjNum' + current.id.charAt(current.id.length - 1);
 				document.getElementById(pj).style.display = 'block';
-				document.getElementById(pj).innerHTML = "PJ-" + current.pjNum.value;
+				document.getElementById(pj).innerHTML = "PJ-" + current.pjNum.value + " [#" + current.id.charAt(current.id.length - 1) + "]";
 				current.pjNum.value = '';
 			}
 
