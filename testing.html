@@ -4,18 +4,6 @@
 	PHP is not supported on Github pages
 
 	onClick/onSelect() does not support select option buttions, use onchange instead
-
-	used abit of 
-	https://gist.github.com/gregelin/8787082
-	https://stackoverflow.com/questions/35476948/remove-empty-or-whitespace-strings-from-array-javascript
-	for parsing text
-	
-	Randomising array positions
-	https://www.w3schools.com/js/js_array_sort.asp
-
-	// Fragmenting of text adaptation
-	https://stackoverflow.com/questions/2936112/text-wrap-in-a-canvas-element
-	https://www.w3schools.com/graphics/canvas_text.asp
 -->
 <html>
 	<head>
@@ -34,14 +22,6 @@
 
 		<!-- JS Code -->
 		<script language="JavaScript">
-			function testButton() {
-				alert("You pressed submit");
-			}
-
-			function alertNotif(text) {
-				alert(text);
-			}
-
 			// Shows PJ number on the current rack
 			function showPJ(current) {
 				pj = 'pjNum' + current.id.charAt(current.id.length - 1);
@@ -57,6 +37,7 @@
 				document.getElementById(pj).innerHTML = "PJ-NIL";
 			}
 
+			// Clears data recorded in the current rack tab
 			function clearData(id) {
 				document.getElementById('BIOSVer' + id).checked = false;
 				
@@ -95,6 +76,7 @@
 				document.getElementById('finish' + id).disabled=true;
 			}
 
+			// Shows the next requested form on the rack tab
 			function displayForm(current, next) {
 				//$(current).hide();
 				//$(next).show();
@@ -104,6 +86,7 @@
 				document.getElementById(next).style.display = 'block';
 			}
 
+			// Disable/Enable checklists Pt1
 			function toggleLockedChecklist(num) {
 				bChecked = num.checked;
 
@@ -116,6 +99,7 @@
 				document.getElementById('sb' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
 			}
 
+			// Disable/Enable checklists Pt2
 			function toggleEngineerList(num) {
 				bChecked = num.checked;
 
@@ -125,6 +109,7 @@
 				document.getElementById('win11pro' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
 			}
 
+			// Enables finish button to clear rack tab
 			function toggleFinishButton(num) {
 				document.getElementById('finish' + num).disabled=false;
 			}
@@ -137,7 +122,6 @@
 					showPJ(document.activeElement.form);
 				}
 			}
-
 		</script>
 	</head>
 	<body class="text-center">
