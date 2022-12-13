@@ -115,9 +115,9 @@
 			}
 
 			// Disables the default pressing "Enter" to refresh page and treats it as pressing submit button
-			document.onkeydown=function(){
-				if(window.event.keyCode=='13'){ // Enter Key (Keyboard)
-					window.event.preventDefault();
+			document.onkeydown=function(event){
+				if(event.keyCode=='13'){ // Enter Key (Keyboard)
+					event.preventDefault();
 					displayForm(document.activeElement.form, 'bios');
 					showPJ(document.activeElement.form);
 				}
