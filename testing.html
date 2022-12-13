@@ -129,6 +129,15 @@
 				document.getElementById('finish' + num).disabled=false;
 			}
 
+			// Disables the default pressing "Enter" to refresh page and treats it as pressing submit button
+			document.onkeydown=function(){
+				if(window.event.keyCode=='13'){ // Enter Key (Keyboard)
+					window.event.preventDefault();
+					displayForm(document.activeElement.form, 'bios');
+					showPJ(document.activeElement.form);
+				}
+			}
+
 		</script>
 	</head>
 	<body class="text-center">
@@ -139,7 +148,7 @@
 				<h1 class="cover-heading">Testing rack</h1>
 				<div class="row">
 					<div class="column">
-						<form method="get" id="num1">
+						<form id="num1">
 							Enter PJ-(x) [Rack #1]:
 							<br>
 							<input type="text" name="pjNum"><br><br>
