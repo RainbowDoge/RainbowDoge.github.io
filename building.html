@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--
+	Notes
+	PHP is not supported on Github pages
+
+	onClick/onSelect() does not support select option buttions, use onchange instead
+-->
+<html>
+	<head>
+		<style>
+		</style>
+  		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		
+		<link href="testing.css" rel="stylesheet">
+
+		<!-- JS Code -->
+		<script language="JavaScript">
+			// First alert check
+			function firstAlert() {
+				alert("You pressed submit");
+			}
+
+			function stickerPeeled() {
+				alert("STOP, have you peeled the sticker on the AIO/CPU Cooler?");
+			}
+
+			function alertNotif(text) {
+				alert(text);
+			}
+
+			// Shows PJ number on the current rack
+			function showPJ(current) {
+				pj = 'pjNum' + current.id.charAt(current.id.length - 1);
+				document.getElementById(pj).style.display = 'block';
+				document.getElementById(pj).innerHTML = "PJ-" + current.pjNum.value + " [#" + current.id.charAt(current.id.length - 1) + "]";
+				current.pjNum.value = '';
+			}
+
+			// Clears PJ number from rack tab
+			function clearPJ(id) {
+				pj = 'pjNum' + id.id.charAt(id.id.length - 1);
+				document.getElementById(pj).style.display = 'none';
+				document.getElementById(pj).innerHTML = "PJ-NIL";
+			}
+
+			// Clears data recorded in the current rack tab
+			function clearData(id) {
+				document.getElementById('BIOSVer' + id).checked = false;
+				
+				document.getElementById('OC' + id).disabled=true;
+				document.getElementById('OC' + id).checked=false;
+				document.getElementById('dCSM' + id).disabled=true;
+				document.getElementById('dCSM' + id).checked=false;
+				document.getElementById('fan' + id).disabled=true;
+				document.getElementById('fan' + id).checked=false;
+				document.getElementById('module' + id).disabled=true;
+				document.getElementById('module' + id).checked=false;
+				document.getElementById('network' + id).disabled=true;
+				document.getElementById('network' + id).checked=false;
+				document.getElementById('graphics' + id).disabled=true;
+				document.getElementById('graphics' + id).checked=false;
+				document.getElementById('sb' + id).disabled=true;
+				document.getElementById('sb' + id).checked=false;
+				
+				document.getElementById('winPE' + id).checked=false;
+
+				document.getElementById('score' + id).disabled=true;
+				document.getElementById('score' + id).checked=false;
+				document.getElementById('audioUSB' + id).disabled=true;
+				document.getElementById('audioUSB' + id).checked=false;
+				document.getElementById('deets' + id).disabled=true;
+				document.getElementById('deets' + id).checked=false;
+				document.getElementById('win11pro' + id).disabled=true;
+				document.getElementById('win11pro' + id).checked=false;
+				
+				document.getElementById('wu1' + id).checked=false;
+				document.getElementById('wu2' + id).checked=false;
+				document.getElementById('wu3' + id).checked=false;
+				document.getElementById('rgb' + id).checked=false;
+				document.getElementById('winAct' + id).checked=false;
+
+				document.getElementById('finish' + id).disabled=true;
+			}
+
+			// Shows the next requested form on the rack tab
+			function displayForm(current, next) {
+				current.style.display = 'none';
+				next = next + current.id.charAt(current.id.length - 1);
+				document.getElementById(next).style.display = 'block';
+			}
+
+			// Disable/Enable checklists Pt1
+			function toggleLockedChecklist(num) {
+				bChecked = num.checked;
+
+				document.getElementById('OC' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('dCSM' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('fan' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('module' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('network' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('graphics' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('sb' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+			}
+
+			// Disable/Enable checklists Pt2
+			function toggleEngineerList(num) {
+				bChecked = num.checked;
+
+				document.getElementById('score' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('audioUSB' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('deets' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('win11pro' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+			}
+
+			// Enables finish button to clear rack tab
+			function toggleFinishButton(num) {
+				document.getElementById('finish' + num).disabled=false;
+			}
+
+			// Disables the default pressing "Enter" to refresh page and treats it as pressing submit button
+			document.onkeydown=function(event){
+				if(event.keyCode=='13'){ // Enter Key (Keyboard)
+					event.preventDefault();
+					displayForm(document.activeElement.form, 'bios');
+					showPJ(document.activeElement.form);
+				}
+			}
+		</script>
+	</head>
+	<body class="text-center">
+		<!-- Main Navigation Tab -->
+		<div class="cover-container mx-auto">
+
+			<!-- Building process -->
+				<h1 class="cover-heading">Building (4 dummies)</h1>
+				<form id="num1">
+					Enter PJ-(x):
+					<br>
+					<input type="text" name="pjNum"><br><br>
+					<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+				</form>
+				<h4 id="pjNum1" style="display: none">
+					test
+				</h4>
+				<!--
+					1. Check all component (No bent pins/paint chipped/defects)
+					2. Motherboard (CPU, NVME M.2)
+					PreReq 3. Reposition fans if AU build
+					3. Air-cooler / AIO (Take out sticker, remove pre-existing thermal paste and put new paste, feel free to add lots of alert)
+					4. Insert Ram
+					5. Read the MOBO (Know where you plan the fan/rgb pins are going to before doing anything)
+					6. Chassis: Unbox and remove cable-ties, GPU slot covers that is going to be used (Generally, Intel boards would be 1/2, AMD boards be 2/3)
+					7. Put in I/O Shield into chassis if needed, else put in motherboard 
+				-->
+				<form id="bios1" style="display: none">
+					<input type="checkbox" id="BIOSVer1" onchange="toggleLockedChecklist(this)">
+					<label for="BIOSVer1"> BIOS updated </label><br>
+
+					<input type="checkbox" id="OC1" disabled="true">
+					<label for="OC1"> XMP/D.O.C.P </label><br>
+					<input type="checkbox" id="dCSM1" disabled="true">
+					<label for="dCSM1"> Disable CSM Support </label><br>
+					<input type="checkbox" id="fan1" disabled="true">
+					<label for="fan1"> Fan configs </label><br>
+					<input type="checkbox" id="module1" disabled="true">
+					<label for="module1"> fTPM/PTT enabled </label><br>
+					<input type="checkbox" id="network1" disabled="true">
+					<label for="network1"> Network Stack Enable (IPv6 PXE disable) </label><br>
+					<input type="checkbox" id="graphics1" disabled="true">
+					<label for="graphics1"> Enable Above 4G & Resize BAR </label><br>
+					<input type="checkbox" id="sb1" disabled="true">
+					<label for="sb1"> Secure Boot = Enabled/Standard/UEFI </label><br>
+					<br>
+					<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+				</form>
+				<form id="engineer1" style="display: none">
+					<h5>WinPE Mode A</h5>
+					<input type="checkbox" id="winPE1" onchange="toggleEngineerList(this)">
+					<label for="winPE1">"Engineer Mode" .wim</label>
+					<h5>Engineer Mode</h5>
+					<p> > Automate-Start-AUS.bat </p>
+					<input type="checkbox" id="score1" disabled="true">
+					<label for="score1"> Input scores on ClickUp </label><br>
+					<input type="checkbox" id="audioUSB1" disabled="true">
+					<label for="audioUSB1"> Audio & USB port checked </label><br>
+					<input type="checkbox" id="deets1" disabled="true">
+					<label for="deets1"> SysInfo, Device Manager, HDD/SSD </label><br>
+					<h5>WinPE Mode B</h5>
+					<input type="checkbox" id="win11pro1" disabled="true">
+					<label for="win11pro1"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+					<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+				</form>
+				<form id="final1" style="display: none">
+					<h5>Win11Pro Mode</h5>
+					<input type="checkbox" id="wu11">
+					<label for="wu11"> Windows Update Part 1</label><br>
+					<p> > shutdown /r /t 400 </p>
+					<input type="checkbox" id="wu21">
+					<label for="wu21"> Windows Update Part 2</label><br>
+					<p> > shutdown /r /t 380 </p>
+					<input type="checkbox" id="wu31">
+					<label for="wu31"> Windows Update Part 3</label><br>
+					<input type="checkbox" id="rgb1">
+					<label for="rgb1"> Install/Set RGB Software</label><br>
+					<input type="checkbox" id="winAct1" onchange="toggleFinishButton(1)">
+					<label for="winAct1"> Windows Activated</label><br>
+					<p> > MDos Injected = No, 0330 - Win11Pro</p>
+					
+					<input type="button" value="Finish" id="finish1" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(1)">
+				</form>
+			
+			<footer class="mastfoot mt-auto">
+				<div class="inner">
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>
