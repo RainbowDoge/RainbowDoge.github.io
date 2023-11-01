@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<!--
+	Notes
+	PHP is not supported on Github pages
+
+	onClick/onSelect() does not support select option buttions, use onchange instead
+-->
+<html>
+	<head>
+		<style>
+		</style>
+  		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		
+
+		<link href="testing.css" rel="stylesheet">
+
+		<!-- JS Code -->
+		<script language="JavaScript">
+			// Shows PJ number on the current rack
+			function showPJ(current) {
+				pj = 'pjNum' + current.id.charAt(current.id.length - 1);
+				document.getElementById(pj).style.display = 'block';
+				document.getElementById(pj).innerHTML = "PJ-" + current.pjNum.value + " [#" + current.id.charAt(current.id.length - 1) + "]";
+				current.pjNum.value = '';
+			}
+
+			// Clears PJ number from rack tab
+			function clearPJ(id) {
+				pj = 'pjNum' + id.id.charAt(id.id.length - 1);
+				document.getElementById(pj).style.display = 'none';
+				document.getElementById(pj).innerHTML = "PJ-NIL";
+			}
+
+			// Clears data recorded in the current rack tab
+			function clearData(id) {
+				document.getElementById('BIOSVer' + id).checked = false;
+				
+				document.getElementById('OC' + id).disabled=true;
+				document.getElementById('OC' + id).checked=false;
+				document.getElementById('dCSM' + id).disabled=true;
+				document.getElementById('dCSM' + id).checked=false;
+				document.getElementById('fan' + id).disabled=true;
+				document.getElementById('fan' + id).checked=false;
+				document.getElementById('module' + id).disabled=true;
+				document.getElementById('module' + id).checked=false;
+				document.getElementById('network' + id).disabled=true;
+				document.getElementById('network' + id).checked=false;
+				document.getElementById('graphics' + id).disabled=true;
+				document.getElementById('graphics' + id).checked=false;
+				document.getElementById('sb' + id).disabled=true;
+				document.getElementById('sb' + id).checked=false;
+				
+				document.getElementById('winPE' + id).checked=false;
+
+				document.getElementById('score' + id).disabled=true;
+				document.getElementById('score' + id).checked=false;
+				document.getElementById('audioUSB' + id).disabled=true;
+				document.getElementById('audioUSB' + id).checked=false;
+				document.getElementById('deets' + id).disabled=true;
+				document.getElementById('deets' + id).checked=false;
+				document.getElementById('win11pro' + id).disabled=true;
+				document.getElementById('win11pro' + id).checked=false;
+				
+				document.getElementById('wu1' + id).checked=false;
+				document.getElementById('wu2' + id).checked=false;
+				document.getElementById('wu3' + id).checked=false;
+				document.getElementById('rgb' + id).checked=false;
+				document.getElementById('winAct' + id).checked=false;
+
+				document.getElementById('finish' + id).disabled=true;
+			}
+
+			// Shows the next requested form on the rack tab
+			function displayForm(current, next) {
+				//$(current).hide();
+				//$(next).show();
+
+				current.style.display = 'none';
+				next = next + current.id.charAt(current.id.length - 1);
+				document.getElementById(next).style.display = 'block';
+			}
+
+			// Disable/Enable checklists Pt1
+			function toggleLockedChecklist(num) {
+				bChecked = num.checked;
+
+				document.getElementById('OC' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('dCSM' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('fan' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('module' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('network' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('graphics' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('sb' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+			}
+
+			// Disable/Enable checklists Pt2
+			function toggleEngineerList(num) {
+				bChecked = num.checked;
+
+				document.getElementById('score' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('audioUSB' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('deets' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+				document.getElementById('win11pro' + num.id.charAt(num.id.length - 1)).disabled=!bChecked;
+			}
+
+			// Enables finish button to clear rack tab
+			function toggleFinishButton(num) {
+				document.getElementById('finish' + num).disabled=false;
+			}
+
+			// Disables the default pressing "Enter" to refresh page and treats it as pressing submit button
+			document.onkeydown=function(event){
+				if(event.keyCode=='13'){ // Enter Key (Keyboard)
+					event.preventDefault();
+					displayForm(document.activeElement.form, 'bios');
+					showPJ(document.activeElement.form);
+				}
+			}
+		</script>
+	</head>
+	<body class="text-center">
+		<!-- Main Navigation Tab -->
+		<div class="cover-container mx-auto">
+
+			<!-- Testing process -->
+				<h1 class="cover-heading">Testing rack</h1>
+				<div class="row">
+					<div class="column">
+						<form id="num1">
+							Enter PJ-(x) [Rack #1]:
+							<br>
+							<input type="text" name="pjNum"><br><br>
+							<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+						</form>
+						<h4 id="pjNum1" style="display: none">
+							test
+						</h4>
+						<form id="bios1" style="display: none">
+							<input type="checkbox" id="BIOSVer1" onchange="toggleLockedChecklist(this)">
+							<label for="BIOSVer1"> BIOS updated </label><br>
+
+							<input type="checkbox" id="OC1" disabled="true">
+							<label for="OC1"> XMP/D.O.C.P </label><br>
+							<input type="checkbox" id="dCSM1" disabled="true">
+							<label for="dCSM1"> Disable CSM Support </label><br>
+							<input type="checkbox" id="fan1" disabled="true">
+							<label for="fan1"> Fan configs </label><br>
+							<input type="checkbox" id="module1" disabled="true">
+							<label for="module1"> fTPM/PTT enabled </label><br>
+							<input type="checkbox" id="network1" disabled="true">
+							<label for="network1"> Network Stack Enable (IPv6 PXE disable) </label><br>
+							<input type="checkbox" id="graphics1" disabled="true">
+							<label for="graphics1"> Enable Above 4G & Resize BAR </label><br>
+							<input type="checkbox" id="sb1" disabled="true">
+							<label for="sb1"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							<br>
+							<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+						</form>
+						<form id="engineer1" style="display: none">
+							<h5>WinPE Mode A</h5>
+							<input type="checkbox" id="winPE1" onchange="toggleEngineerList(this)">
+							<label for="winPE1">"Engineer Mode" .wim</label>
+							<h5>Engineer Mode</h5>
+							<p> > Automate-Start-AUS.bat </p>
+							<input type="checkbox" id="score1" disabled="true">
+							<label for="score1"> Input scores on ClickUp </label><br>
+							<input type="checkbox" id="audioUSB1" disabled="true">
+							<label for="audioUSB1"> Audio & USB port checked </label><br>
+							<input type="checkbox" id="deets1" disabled="true">
+							<label for="deets1"> SysInfo, Device Manager, HDD/SSD </label><br>
+							<h5>WinPE Mode B</h5>
+							<input type="checkbox" id="win11pro1" disabled="true">
+							<label for="win11pro1"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+							<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+						</form>
+						<form id="final1" style="display: none">
+							<h5>Win11Pro Mode</h5>
+							<input type="checkbox" id="wu11">
+							<label for="wu11"> Windows Update Part 1</label><br>
+							<p> > shutdown /r /t 400 </p>
+							<input type="checkbox" id="wu21">
+							<label for="wu21"> Windows Update Part 2</label><br>
+							<p> > shutdown /r /t 380 </p>
+							<input type="checkbox" id="wu31">
+							<label for="wu31"> Windows Update Part 3</label><br>
+							<input type="checkbox" id="rgb1">
+							<label for="rgb1"> Install/Set RGB Software</label><br>
+							<input type="checkbox" id="winAct1" onchange="toggleFinishButton(1)">
+							<label for="winAct1"> Windows Activated</label><br>
+							<p> > MDos Injected = No, 0330 - Win11Pro</p>
+							
+							<input type="button" value="Finish" id="finish1" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(1)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num2">
+							Enter PJ-(x) [Rack #2]:
+							<br>
+							<input type="text" name="pjNum"><br><br>
+							<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+						</form>
+						<h4 id="pjNum2" style="display: none">
+							test
+						</h4>
+						<form id="bios2" style="display: none">
+							<input type="checkbox" id="BIOSVer2" onchange="toggleLockedChecklist(this)">
+							<label for="BIOSVer2"> BIOS updated </label><br>
+
+							<input type="checkbox" id="OC2" disabled="true">
+							<label for="OC2"> XMP/D.O.C.P </label><br>
+							<input type="checkbox" id="dCSM2" disabled="true">
+							<label for="dCSM2"> Disable CSM Support </label><br>
+							<input type="checkbox" id="fan2" disabled="true">
+							<label for="fan2"> Fan configs </label><br>
+							<input type="checkbox" id="module2" disabled="true">
+							<label for="module2"> fTPM/PTT enabled </label><br>
+							<input type="checkbox" id="network2" disabled="true">
+							<label for="network2"> Network Stack Enable (IPv6 PXE disable) </label><br>
+							<input type="checkbox" id="graphics2" disabled="true">
+							<label for="graphics2"> Enable Above 4G & Resize BAR </label><br>
+							<input type="checkbox" id="sb2" disabled="true">
+							<label for="sb2"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							<br>
+							<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+						</form>
+						<form id="engineer2" style="display: none">
+							<h5>WinPE Mode A</h5>
+							<input type="checkbox" id="winPE2" onchange="toggleEngineerList(this)">
+							<label for="winPE2">"Engineer Mode" .wim</label>
+							<h5>Engineer Mode</h5>
+							<p> > Automate-Start-AUS.bat </p>
+							<input type="checkbox" id="score2" disabled="true">
+							<label for="score2"> Input scores on ClickUp </label><br>
+							<input type="checkbox" id="audioUSB2" disabled="true">
+							<label for="audioUSB2"> Audio & USB port checked </label><br>
+							<input type="checkbox" id="deets2" disabled="true">
+							<label for="deets2"> SysInfo, Device Manager, HDD/SSD </label><br>
+							<h5>WinPE Mode B</h5>
+							<input type="checkbox" id="win11pro2" disabled="true">
+							<label for="win11pro2"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+							<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+						</form>
+						<form id="final2" style="display: none">
+							<h5>Win11Pro Mode</h5>
+							<input type="checkbox" id="wu12">
+							<label for="wu12"> Windows Update Part 1</label><br>
+							<p> > shutdown /r /t 400 </p>
+							<input type="checkbox" id="wu22">
+							<label for="wu22"> Windows Update Part 2</label><br>
+							<p> > shutdown /r /t 380 </p>
+							<input type="checkbox" id="wu32">
+							<label for="wu32"> Windows Update Part 3</label><br>
+							<input type="checkbox" id="rgb2">
+							<label for="rgb2"> Install/Set RGB Software</label><br>
+							<input type="checkbox" id="winAct2" onchange="toggleFinishButton(2)">
+							<label for="winAct2"> Windows Activated</label><br>
+							<p> > MDos Injected = No, 0330 - Win11Pro</p>
+							
+							<input type="button" value="Finish" id="finish2" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(2)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num3">
+							Enter PJ-(x) [Rack #3]:
+							<br>
+							<input type="text" name="pjNum"><br><br>
+							<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+						</form>
+						<h4 id="pjNum3" style="display: none">
+							test
+						</h4>
+						<form id="bios3" style="display: none">
+							<input type="checkbox" id="BIOSVer3" onchange="toggleLockedChecklist(this)">
+							<label for="BIOSVer3"> BIOS updated </label><br>
+
+							<input type="checkbox" id="OC3" disabled="true">
+							<label for="OC3"> XMP/D.O.C.P </label><br>
+							<input type="checkbox" id="dCSM3" disabled="true">
+							<label for="dCSM3"> Disable CSM Support </label><br>
+							<input type="checkbox" id="fan3" disabled="true">
+							<label for="fan3"> Fan configs </label><br>
+							<input type="checkbox" id="module3" disabled="true">
+							<label for="module3"> fTPM/PTT enabled </label><br>
+							<input type="checkbox" id="network3" disabled="true">
+							<label for="network3"> Network Stack Enable (IPv6 PXE disable) </label><br>
+							<input type="checkbox" id="graphics3" disabled="true">
+							<label for="graphics3"> Enable Above 4G & Resize BAR </label><br>
+							<input type="checkbox" id="sb3" disabled="true">
+							<label for="sb3"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							<br>
+							<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+						</form>
+						<form id="engineer3" style="display: none">
+							<h5>WinPE Mode A</h5>
+							<input type="checkbox" id="winPE3" onchange="toggleEngineerList(this)">
+							<label for="winPE3">"Engineer Mode" .wim</label>
+							<h5>Engineer Mode</h5>
+							<p> > Automate-Start-AUS.bat </p>
+							<input type="checkbox" id="score3" disabled="true">
+							<label for="score3"> Input scores on ClickUp </label><br>
+							<input type="checkbox" id="audioUSB3" disabled="true">
+							<label for="audioUSB3"> Audio & USB port checked </label><br>
+							<input type="checkbox" id="deets3" disabled="true">
+							<label for="deets3"> SysInfo, Device Manager, HDD/SSD </label><br>
+							<h5>WinPE Mode B</h5>
+							<input type="checkbox" id="win11pro3" disabled="true">
+							<label for="win11pro3"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+							<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+						</form>
+						<form id="final3" style="display: none">
+							<h5>Win11Pro Mode</h5>
+							<input type="checkbox" id="wu13">
+							<label for="wu13"> Windows Update Part 1</label><br>
+							<p> > shutdown /r /t 400 </p>
+							<input type="checkbox" id="wu23">
+							<label for="wu23"> Windows Update Part 2</label><br>
+							<p> > shutdown /r /t 380 </p>
+							<input type="checkbox" id="wu33">
+							<label for="wu33"> Windows Update Part 3</label><br>
+							<input type="checkbox" id="rgb3">
+							<label for="rgb3"> Install/Set RGB Software</label><br>
+							<input type="checkbox" id="winAct3" onchange="toggleFinishButton(3)">
+							<label for="winAct3"> Windows Activated</label><br>
+							<p> > MDos Injected = No, 0330 - Win11Pro</p>
+							
+							<input type="button" value="Finish" id="finish3" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(3)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num4">
+							Enter PJ-(x) [Rack #4]:
+							<br>
+							<input type="text" name="pjNum"><br><br>
+							<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+						</form>
+						<h4 id="pjNum4" style="display: none">
+							test
+						</h4>
+						<form id="bios4" style="display: none">
+							<input type="checkbox" id="BIOSVer4" onchange="toggleLockedChecklist(this)">
+							<label for="BIOSVer4"> BIOS updated </label><br>
+
+							<input type="checkbox" id="OC4" disabled="true">
+							<label for="OC4"> XMP/D.O.C.P </label><br>
+							<input type="checkbox" id="dCSM4" disabled="true">
+							<label for="dCSM4"> Disable CSM Support </label><br>
+							<input type="checkbox" id="fan4" disabled="true">
+							<label for="fan4"> Fan configs </label><br>
+							<input type="checkbox" id="module4" disabled="true">
+							<label for="module4"> fTPM/PTT enabled </label><br>
+							<input type="checkbox" id="network4" disabled="true">
+							<label for="network4"> Network Stack Enable (IPv6 PXE disable) </label><br>
+							<input type="checkbox" id="graphics4" disabled="true">
+							<label for="graphics4"> Enable Above 4G & Resize BAR </label><br>
+							<input type="checkbox" id="sb4" disabled="true">
+							<label for="sb4"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							<br>
+							<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+						</form>
+						<form id="engineer4" style="display: none">
+							<h5>WinPE Mode A</h5>
+							<input type="checkbox" id="winPE4" onchange="toggleEngineerList(this)">
+							<label for="winPE4">"Engineer Mode" .wim</label>
+							<h5>Engineer Mode</h5>
+							<p> > Automate-Start-AUS.bat </p>
+							<input type="checkbox" id="score4" disabled="true">
+							<label for="score4"> Input scores on ClickUp </label><br>
+							<input type="checkbox" id="audioUSB4" disabled="true">
+							<label for="audioUSB4"> Audio & USB port checked </label><br>
+							<input type="checkbox" id="deets4" disabled="true">
+							<label for="deets4"> SysInfo, Device Manager, HDD/SSD </label><br>
+							<h5>WinPE Mode B</h5>
+							<input type="checkbox" id="win11pro4" disabled="true">
+							<label for="win11pro4"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+							<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+						</form>
+						<form id="final4" style="display: none">
+							<h5>Win11Pro Mode</h5>
+							<input type="checkbox" id="wu14">
+							<label for="wu14"> Windows Update Part 1</label><br>
+							<p> > shutdown /r /t 400 </p>
+							<input type="checkbox" id="wu24">
+							<label for="wu24"> Windows Update Part 2</label><br>
+							<p> > shutdown /r /t 380 </p>
+							<input type="checkbox" id="wu34">
+							<label for="wu34"> Windows Update Part 3</label><br>
+							<input type="checkbox" id="rgb4">
+							<label for="rgb4"> Install/Set RGB Software</label><br>
+							<input type="checkbox" id="winAct4" onchange="toggleFinishButton(4)">
+							<label for="winAct4"> Windows Activated</label><br>
+							<p> > MDos Injected = No, 0330 - Win11Pro</p>
+							
+							<input type="button" value="Finish" id="finish4" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(4)">
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column">
+						<form method="get" id="num5">
+							Enter PJ-(x) [Rack #5]:
+							<br>
+							<input type="text" name="pjNum"><br><br>
+							<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+						</form>
+						<h4 id="pjNum5" style="display: none">
+							test
+						</h4>
+						<form id="bios5" style="display: none">
+							<input type="checkbox" id="BIOSVer5" onchange="toggleLockedChecklist(this)">
+							<label for="BIOSVer5"> BIOS updated </label><br>
+
+							<input type="checkbox" id="OC5" disabled="true">
+							<label for="OC5"> XMP/D.O.C.P </label><br>
+							<input type="checkbox" id="dCSM5" disabled="true">
+							<label for="dCSM5"> Disable CSM Support </label><br>
+							<input type="checkbox" id="fan5" disabled="true">
+							<label for="fan5"> Fan configs </label><br>
+							<input type="checkbox" id="module5" disabled="true">
+							<label for="module5"> fTPM/PTT enabled </label><br>
+							<input type="checkbox" id="network5" disabled="true">
+							<label for="network5"> Network Stack Enable (IPv6 PXE disable) </label><br>
+							<input type="checkbox" id="graphics5" disabled="true">
+							<label for="graphics5"> Enable Above 4G & Resize BAR </label><br>
+							<input type="checkbox" id="sb5" disabled="true">
+							<label for="sb5"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							<br>
+							<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+						</form>
+						<form id="engineer5" style="display: none">
+							<h5>WinPE Mode A</h5>
+							<input type="checkbox" id="winPE5" onchange="toggleEngineerList(this)">
+							<label for="winPE5">"Engineer Mode" .wim</label>
+							<h5>Engineer Mode</h5>
+							<p> > Automate-Start-AUS.bat </p>
+							<input type="checkbox" id="score5" disabled="true">
+							<label for="score5"> Input scores on ClickUp </label><br>
+							<input type="checkbox" id="audioUSB5" disabled="true">
+							<label for="audioUSB5"> Audio & USB port checked </label><br>
+							<input type="checkbox" id="deets5" disabled="true">
+							<label for="deets5"> SysInfo, Device Manager, HDD/SSD </label><br>
+							<h5>WinPE Mode B</h5>
+							<input type="checkbox" id="win11pro5" disabled="true">
+							<label for="win11pro5"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+							<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+						</form>
+						<form id="final5" style="display: none">
+							<h5>Win11Pro Mode</h5>
+							<input type="checkbox" id="wu15">
+							<label for="wu15"> Windows Update Part 1</label><br>
+							<p> > shutdown /r /t 400 </p>
+							<input type="checkbox" id="wu25">
+							<label for="wu25"> Windows Update Part 2</label><br>
+							<p> > shutdown /r /t 380 </p>
+							<input type="checkbox" id="wu35">
+							<label for="wu35"> Windows Update Part 3</label><br>
+							<input type="checkbox" id="rgb5">
+							<label for="rgb5"> Install/Set RGB Software</label><br>
+							<input type="checkbox" id="winAct5" onchange="toggleFinishButton(5)">
+							<label for="winAct5"> Windows Activated</label><br>
+							<p> > MDos Injected = No, 0330 - Win11Pro</p>
+							
+							<input type="button" value="Finish" id="finish5" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(5)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num6">
+							Enter PJ-(x) [Rack #6]:
+							<br>
+							<input type="text" name="pjNum"><br><br>
+							<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+						</form>
+						<h4 id="pjNum6" style="display: none">
+							test
+						</h4>
+						<form id="bios6" style="display: none">
+							<input type="checkbox" id="BIOSVer6" onchange="toggleLockedChecklist(this)">
+							<label for="BIOSVer6"> BIOS updated </label><br>
+
+							<input type="checkbox" id="OC6" disabled="true">
+							<label for="OC6"> XMP/D.O.C.P </label><br>
+							<input type="checkbox" id="dCSM6" disabled="true">
+							<label for="dCSM6"> Disable CSM Support </label><br>
+							<input type="checkbox" id="fan6" disabled="true">
+							<label for="fan6"> Fan configs </label><br>
+							<input type="checkbox" id="module6" disabled="true">
+							<label for="module6"> fTPM/PTT enabled </label><br>
+							<input type="checkbox" id="network6" disabled="true">
+							<label for="network6"> Network Stack Enable (IPv6 PXE disable) </label><br>
+							<input type="checkbox" id="graphics6" disabled="true">
+							<label for="graphics6"> Enable Above 4G & Resize BAR </label><br>
+							<input type="checkbox" id="sb6" disabled="true">
+							<label for="sb6"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							<br>
+							<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+						</form>
+						<form id="engineer6" style="display: none">
+							<h5>WinPE Mode A</h5>
+							<input type="checkbox" id="winPE6" onchange="toggleEngineerList(this)">
+							<label for="winPE6">"Engineer Mode" .wim</label>
+							<h5>Engineer Mode</h5>
+							<p> > Automate-Start-AUS.bat </p>
+							<input type="checkbox" id="score6" disabled="true">
+							<label for="score6"> Input scores on ClickUp </label><br>
+							<input type="checkbox" id="audioUSB6" disabled="true">
+							<label for="audioUSB6"> Audio & USB port checked </label><br>
+							<input type="checkbox" id="deets6" disabled="true">
+							<label for="deets6"> SysInfo, Device Manager, HDD/SSD </label><br>
+							<h5>WinPE Mode B</h5>
+							<input type="checkbox" id="win11pro6" disabled="true">
+							<label for="win11pro6"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+							<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+						</form>
+						<form id="final6" style="display: none">
+							<h5>Win11Pro Mode</h5>
+							<input type="checkbox" id="wu16">
+							<label for="wu16"> Windows Update Part 1</label><br>
+							<p> > shutdown /r /t 400 </p>
+							<input type="checkbox" id="wu26">
+							<label for="wu26"> Windows Update Part 2</label><br>
+							<p> > shutdown /r /t 380 </p>
+							<input type="checkbox" id="wu36">
+							<label for="wu36"> Windows Update Part 3</label><br>
+							<input type="checkbox" id="rgb6">
+							<label for="rgb6"> Install/Set RGB Software</label><br>
+							<input type="checkbox" id="winAct6" onchange="toggleFinishButton(6)">
+							<label for="winAct6"> Windows Activated</label><br>
+							<p> > MDos Injected = No, 0330 - Win11Pro</p>
+							
+							<input type="button" value="Finish" id="finish6" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(6)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num7">
+							Enter PJ-(x) [Rack #7]:
+							<br>
+							<input type="text" name="pjNum"><br><br>
+							<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+						</form>
+						<h4 id="pjNum7" style="display: none">
+							test
+						</h4>
+						<form id="bios7" style="display: none">
+							<input type="checkbox" id="BIOSVer7" onchange="toggleLockedChecklist(this)">
+							<label for="BIOSVer7"> BIOS updated </label><br>
+
+							<input type="checkbox" id="OC7" disabled="true">
+							<label for="OC7"> XMP/D.O.C.P </label><br>
+							<input type="checkbox" id="dCSM7" disabled="true">
+							<label for="dCSM7"> Disable CSM Support </label><br>
+							<input type="checkbox" id="fan7" disabled="true">
+							<label for="fan7"> Fan configs </label><br>
+							<input type="checkbox" id="module7" disabled="true">
+							<label for="module7"> fTPM/PTT enabled </label><br>
+							<input type="checkbox" id="network7" disabled="true">
+							<label for="network7"> Network Stack Enable (IPv6 PXE disable) </label><br>
+							<input type="checkbox" id="graphics7" disabled="true">
+							<label for="graphics7"> Enable Above 4G & Resize BAR </label><br>
+							<input type="checkbox" id="sb7" disabled="true">
+							<label for="sb7"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							<br>
+							<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+						</form>
+						<form id="engineer7" style="display: none">
+							<h5>WinPE Mode A</h5>
+							<input type="checkbox" id="winPE7" onchange="toggleEngineerList(this)">
+							<label for="winPE7">"Engineer Mode" .wim</label>
+							<h5>Engineer Mode</h5>
+							<p> > Automate-Start-AUS.bat </p>
+							<input type="checkbox" id="score7" disabled="true">
+							<label for="score7"> Input scores on ClickUp </label><br>
+							<input type="checkbox" id="audioUSB7" disabled="true">
+							<label for="audioUSB7"> Audio & USB port checked </label><br>
+							<input type="checkbox" id="deets7" disabled="true">
+							<label for="deets7"> SysInfo, Device Manager, HDD/SSD </label><br>
+							<h5>WinPE Mode B</h5>
+							<input type="checkbox" id="win11pro7" disabled="true">
+							<label for="win11pro7"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+							<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+						</form>
+						<form id="final7" style="display: none">
+							<h5>Win11Pro Mode</h5>
+							<input type="checkbox" id="wu17">
+							<label for="wu17"> Windows Update Part 1</label><br>
+							<p> > shutdown /r /t 400 </p>
+							<input type="checkbox" id="wu27">
+							<label for="wu27"> Windows Update Part 2</label><br>
+							<p> > shutdown /r /t 380 </p>
+							<input type="checkbox" id="wu37">
+							<label for="wu37"> Windows Update Part 3</label><br>
+							<input type="checkbox" id="rgb7">
+							<label for="rgb7"> Install/Set RGB Software</label><br>
+							<input type="checkbox" id="winAct7" onchange="toggleFinishButton(7)">
+							<label for="winAct7"> Windows Activated</label><br>
+							<p> > MDos Injected = No, 0330 - Win11Pro</p>
+							
+							<input type="button" value="Finish" id="finish7" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(7)">
+						</form>
+					</div>
+					<div class="column">
+						<form method="get" id="num8">
+							Enter PJ-(x) [Rack #8]:
+							<br>
+							<input type="text" name="pjNum"><br><br>
+							<input type="button" value="Submit" onClick="displayForm(this.form, 'bios');showPJ(this.form)">
+						</form>
+						<h4 id="pjNum8" style="display: none">
+							test
+						</h4>
+						<form id="bios8" style="display: none">
+							<input type="checkbox" id="BIOSVer8" onchange="toggleLockedChecklist(this)">
+							<label for="BIOSVer8"> BIOS updated </label><br>
+
+							<input type="checkbox" id="OC8" disabled="true">
+							<label for="OC8"> XMP/D.O.C.P </label><br>
+							<input type="checkbox" id="dCSM8" disabled="true">
+							<label for="dCSM8"> Disable CSM Support </label><br>
+							<input type="checkbox" id="fan8" disabled="true">
+							<label for="fan8"> Fan configs </label><br>
+							<input type="checkbox" id="module8" disabled="true">
+							<label for="module8"> fTPM/PTT enabled </label><br>
+							<input type="checkbox" id="network8" disabled="true">
+							<label for="network8"> Network Stack Enable (IPv6 PXE disable) </label><br>
+							<input type="checkbox" id="graphics8" disabled="true">
+							<label for="graphics8"> Enable Above 4G & Resize BAR </label><br>
+							<input type="checkbox" id="sb8" disabled="true">
+							<label for="sb8"> Secure Boot = Enabled/Standard/UEFI </label><br>
+							<br>
+							<input type="button" value="Next" onClick="displayForm(this.form, 'engineer')">
+						</form>
+						<form id="engineer8" style="display: none">
+							<h5>WinPE Mode A</h5>
+							<input type="checkbox" id="winPE8" onchange="toggleEngineerList(this)">
+							<label for="winPE8">"Engineer Mode" .wim</label>
+							<h5>Engineer Mode</h5>
+							<p> > Automate-Start-AUS.bat </p>
+							<input type="checkbox" id="score8" disabled="true">
+							<label for="score8"> Input scores on ClickUp </label><br>
+							<input type="checkbox" id="audioUSB8" disabled="true">
+							<label for="audioUSB8"> Audio & USB port checked </label><br>
+							<input type="checkbox" id="deets8" disabled="true">
+							<label for="deets8"> SysInfo, Device Manager, HDD/SSD </label><br>
+							<h5>WinPE Mode B</h5>
+							<input type="checkbox" id="win11pro8" disabled="true">
+							<label for="win11pro8"> Windows 11 Pro - N(Nvidia)/R(Radeon)</label><br>
+
+							<input type="button" value="Next" onClick="displayForm(this.form, 'final')">
+						</form>
+						<form id="final8" style="display: none">
+							<h5>Win11Pro Mode</h5>
+							<input type="checkbox" id="wu18">
+							<label for="wu18"> Windows Update Part 1</label><br>
+							<p> > shutdown /r /t 400 </p>
+							<input type="checkbox" id="wu28">
+							<label for="wu28"> Windows Update Part 2</label><br>
+							<p> > shutdown /r /t 380 </p>
+							<input type="checkbox" id="wu38">
+							<label for="wu38"> Windows Update Part 3</label><br>
+							<input type="checkbox" id="rgb8">
+							<label for="rgb8"> Install/Set RGB Software</label><br>
+							<input type="checkbox" id="winAct8" onchange="toggleFinishButton(8)">
+							<label for="winAct8"> Windows Activated</label><br>
+							<p> > MDos Injected = No, 0330 - Win11Pro</p>
+							
+							<input type="button" value="Finish" id="finish8" disabled="true" onClick="displayForm(this.form, 'num');clearPJ(this.form);clearData(8)">
+						</form>
+					</div>
+				</div>
+				<!--
+				<form method="get" id="form1" action="">
+					<p>
+						Grid Size: 
+						<select name="gridSize" style="width: 200px" onchange="toggleFreeCB(this.value)">
+							<option value='3'>3x3</option>
+							<option value='4'>4x4</option>
+							<option value='5'>5x5</option>
+						</select>
+					</p>
+					<p>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="ifs" name="freeSpace">
+							<label class="custom-control-label" for="ifs">Include Free Space?</label>
+						</div>
+					</p>
+					<p>
+						Enter your bingo words
+						</br>
+						<textarea wrap="off" name="words" id="bingo_words" placeholder="Write your bingo words here" rows="9" style="width: 450px; height: 500px; min-height: 500px"></textarea>
+					</p>
+
+					<p>
+						<input type="button" value="Submit" onClick="parseData(this.form)">
+					</p>
+				</form>
+				-->
+			
+			<footer class="mastfoot mt-auto">
+				<div class="inner">
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

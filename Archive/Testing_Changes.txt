@@ -1,0 +1,30 @@
+First Iteration:
+	Update BIOS
+	Update BIOS settings
+		XMP/EXPO/DOCP enable
+		CSM disable
+		Fan curve
+		fTPM/PTT enable
+		4G Decoding/Re-Size BAR enable
+		Secure Boot Enable
+	WinPE
+		Windows 11 Engineer installation
+	Engineer
+		Score
+		Audio + USB
+	Windows 11 Home/Pro (Audit Mode)
+		Details (HWinfo64, SysInfo, Device Manager)
+		RGB Sync/Set
+		Activate Windows key
+
+Second Iteration (1/11/23):
+	Update BIOS
+	BIOS settings updated
+	
+	Exterior QC
+	USB & Audio Tested
+	
+	Benchmarked
+	
+	Updated Windows
+	Activated Windows
